@@ -11,6 +11,7 @@ void Player::createPlayer(int boundary_width, int boundary_height, SDL_Renderer*
 	boundary_rect.w = boundary_width;
 	boundary_rect.h = boundary_height;
 	this->renderer = renderer;
+	current_color = color_1;
 
 }
 
@@ -32,12 +33,14 @@ void Player::handleEvent(SDL_Event& event) {
 void Player::update(float delta_time) {
 	setDeltaTime(delta_time);
 
+	changeColors();
+
 	move(is_moving);
 
 }
 
 void Player::setDeltaTime(float delta_time) {
-	this->delta_time = delta_time;
+	time.delta_time = delta_time;
 }
 
 void Player::move(bool is_moving) {
@@ -70,16 +73,46 @@ bool Player::playerHit(SDL_Rect collider) {
 	}
 }
 
-void Player::render() {
-	if (is_moving) {
-		SDL_RenderClear(renderer);
-		SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
-	} 
-	else {
-		SDL_RenderClear(renderer);
-		SDL_SetRenderDrawColor(renderer, 242, 140, 40, 255);
-	}
+void Player::changeColors() {
+	time.total_time += time.delta_time;
+	if (time.total_time > time.time_until_flickering) {
 
+		if (time.total_time > time.time_until_flickering + time.time_flickering) {
+			time.total_time = 0;
+			time.time_until_flickering = (rand() % time.time_between_flickers) + 10;
+			time.flickering_interval = 0;
+			is_color_1 = !is_color_1;
+			if (is_color_1) {
+				current_color = color_1;
+			}
+			else {
+				current_color = color_2;
+			}
+		}
+		else {
+			time.flickering_interval += time.delta_time;
+			if (time.flickering_interval > time.flickering_rate) {
+				flicker();
+				time.flickering_interval = 0;
+			}
+		}
+
+	}
+}
+
+void Player::flicker() {
+	if (is_flicker) {
+		current_color = color_2;
+	}
+	else {
+		current_color = color_1;
+	}
+	is_flicker = !is_flicker;
+}
+
+void Player::render() {
+	SDL_RenderClear(renderer);
+	SDL_SetRenderDrawColor(renderer, current_color.r, current_color.g, current_color.b, current_color.a);
 	SDL_RenderFillRect(renderer, &player_rect);
 	//SDL_RenderCopy(renderer, player_texture, NULL, &player_rect);
 }

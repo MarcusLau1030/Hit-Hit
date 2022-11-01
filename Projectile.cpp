@@ -4,7 +4,7 @@ void Projectile::setEnvironment(SDL_Renderer* renderer) {
 	Projectile::renderer = renderer;
 }
 
-void Projectile::createProjectile(int start_x, int start_y, int end_x, int end_y, SDL_Texture* projectile_texture, float projectile_speed, bool is_on_ground) {
+void Projectile::createProjectile(int start_x, int start_y, int end_x, int end_y, SDL_Texture* projectile_texture, float projectile_speed, bool is_color_1) {
 	collider.x = start_x;
 	collider.y = start_y;
 	position_vector = Vector2(collider.x, collider.y);
@@ -16,7 +16,7 @@ void Projectile::createProjectile(int start_x, int start_y, int end_x, int end_y
 	SDL_QueryTexture(projectile_texture, NULL, NULL, &collider.w, &collider.h);
 	SDL_GetRendererInfo(Projectile::renderer, &renderer_info);
 	info.projectile_speed = projectile_speed;
-	info.is_on_ground = is_on_ground;
+	info.is_color_1 = is_color_1;
 	info.is_active = true;
 }
 

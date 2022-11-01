@@ -10,7 +10,7 @@
 class Projectile {
 public:
 	static void setEnvironment(SDL_Renderer* renderer);
-	void createProjectile(int start_x, int start_y, int end_x, int end_y, SDL_Texture* projectile_texture, float projectile_speed, bool is_on_ground);
+	void createProjectile(int start_x, int start_y, int end_x, int end_y, SDL_Texture* projectile_texture, float projectile_speed, bool is_color_1);
 	void update(float delta_time);
 	void moveProjectile(float delta_time);
 	void deactivateProjectile();
@@ -18,7 +18,7 @@ public:
 	void clean();
 
 	SDL_Rect collider;
-	struct projectile_info { float projectile_speed; std::string team; bool is_active; bool is_on_ground; };
+	struct projectile_info { float projectile_speed; std::string team; bool is_active; bool is_color_1; };
 	projectile_info info;
 
 private:

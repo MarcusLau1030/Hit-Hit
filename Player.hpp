@@ -16,7 +16,11 @@ public:
     bool playerHit(SDL_Rect collider);
     void render();
     void clean();
+    void changeColors();
+    void flicker();
     bool is_moving = false;
+    bool is_color_1 = true;
+    bool is_flicker = true;
 
     SDL_Rect player_rect;
 
@@ -24,8 +28,11 @@ private:
     SDL_Texture* player_texture;
     SDL_Rect boundary_rect;
     SDL_Renderer* renderer;
+    SDL_Color color_1 = {242, 140, 40, 255};
+    SDL_Color color_2 = {0, 0, 255, 255};
+    SDL_Color current_color;
 
-    float delta_time;
-
+    struct time { float delta_time; float total_time = 0; float time_until_flickering = 10; float flickering_interval = 0; float flickering_rate = .2; float time_flickering = 3; int time_between_flickers = 10; };
+    time time;
 };
 
