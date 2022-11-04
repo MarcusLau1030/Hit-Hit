@@ -28,14 +28,6 @@ void Window::createWindow(const char* title, int posx, int posy, int width, int 
         SDL_RenderSetScale(renderer, 1920, 1080);
         SDL_RenderSetLogicalSize(renderer, 1920, 1080);
 
-        if (TTF_Init() == 0) {
-            std::cout << "Initialized SDL_ttf library" << std::endl;
-        }
-
-        if ((IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG)) {
-            std::cout << "Initialized SDL_image library" << std::endl;
-        }
-
         is_running = true;
     }
     else {
@@ -75,7 +67,6 @@ void Window::clean() {
     SDL_DestroyWindow(window);
     SDL_DestroyRenderer(renderer);
     //SDL_FreeSurface(window_surface);
-    TTF_Quit();
     SDL_Quit();
     std::cout << "Window Cleaned" << std::endl;
 }

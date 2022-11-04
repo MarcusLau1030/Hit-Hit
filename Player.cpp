@@ -110,6 +110,21 @@ void Player::flicker() {
 	is_flicker = !is_flicker;
 }
 
+void Player::playerReset() {
+	player_rect.x = boundary_rect.w / 2;
+	player_rect.y = boundary_rect.h / 2;
+	is_moving = false;
+	is_color_1 = true;
+	current_color = color_1;
+
+	time.total_time = 0;
+	time.time_until_flickering = 10;
+	time.flickering_interval = 0;
+	time.flickering_rate = .2;
+	time.time_flickering = 3;
+	time.time_between_flickers = 10;
+}
+
 void Player::render() {
 	SDL_RenderClear(renderer);
 	SDL_SetRenderDrawColor(renderer, current_color.r, current_color.g, current_color.b, current_color.a);

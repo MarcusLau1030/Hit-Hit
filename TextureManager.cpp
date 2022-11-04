@@ -8,6 +8,9 @@ void TextureManager::createTextureManager(SDL_Renderer* renderer) {
     if ((IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG)) {
         std::cout << "Initialized SDL_image library" << std::endl;
     }
+    if (TTF_Init() == 0) {
+        std::cout << "Initialized SDL_ttf library" << std::endl;
+    }
     TextureManager::renderer = renderer;
 }
 
@@ -25,16 +28,28 @@ SDL_Texture* TextureManager::load(std::string image_path) {
     return TextureManager::texture_map[filename];
 }
 
-void TextureManager::displayText(std::string font_path, int font_size, std::string message_text, SDL_Color color, int x, int y) {
+void TextureManager::createText(std::string font_path, int font_size, std::string message_text, SDL_Color color) {
     TTF_Font* font = TTF_OpenFont(font_path.c_str(), font_size);
     SDL_Surface* text_surface = TTF_RenderText_Solid(font, message_text.c_str(), color);
-    SDL_Texture* text_texture = SDL_CreateTextureFromSurface(TextureManager::renderer, text_surface);
+    TextureManager::text_texture = SDL_CreateTextureFromSurface(TextureManager::renderer, text_surface);
+    TTF_CloseFont(font);
     SDL_FreeSurface(text_surface);
+
     SDL_Rect location_rect;
-    location_rect.x = x;
-    location_rect.y = y;
-    SDL_QueryTexture(text_texture, NULL, NULL, &location_rect.w, &location_rect.h);
-    SDL_RenderCopy(TextureManager::renderer, text_texture, NULL, &location_rect);
+    SDL_QueryTexture(TextureManager::text_texture, NULL, NULL, &location_rect.w, &location_rect.h);
+    TextureManager::location_rect = location_rect;
+
+    
+}
+
+void TextureManager::displayText(int x, int y) {
+    
+    TextureManager::location_rect.x = x;
+    TextureManager::location_rect.y = y;
+
+    SDL_RenderCopy(TextureManager::renderer, TextureManager::text_texture, NULL, &TextureManager::location_rect);
+
+    SDL_DestroyTexture(TextureManager::text_texture);
 }
 
 void TextureManager::clean() {
@@ -42,9 +57,14 @@ void TextureManager::clean() {
         SDL_DestroyTexture(i->second);
         i = TextureManager::texture_map.erase(i);
     }
+
+    SDL_DestroyTexture(TextureManager::text_texture);
+
+    TTF_Quit();
 }
 
 std::map<std::string, SDL_Texture*> TextureManager::texture_map;
-
-
 SDL_Renderer* TextureManager::renderer;
+
+SDL_Texture* TextureManager::text_texture;
+SDL_Rect TextureManager::location_rect;

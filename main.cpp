@@ -28,8 +28,6 @@ int main(int argc, char* argv[]) {
     Game game;
     game.createGame(window, player);
 
-
-
     while (game.window.running()) {
         last = now;
         now = SDL_GetPerformanceCounter();

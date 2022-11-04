@@ -18,21 +18,25 @@ public:
     void clean();
     void changeColors();
     void flicker();
+    void playerReset();
     bool is_moving = false;
     bool is_color_1 = true;
     bool is_flicker = true;
 
     SDL_Rect player_rect;
+    const struct Time { float delta_time; float total_time = 0; float time_until_flickering = 10; float flickering_interval = 0; 
+        float flickering_rate = .2; float time_flickering = 3; int time_between_flickers = 10; } ;
+    Time time;
+    SDL_Color color_1 = { 242, 140, 40, 255 };
+    SDL_Color color_2 = { 0, 0, 255, 255 };
+    SDL_Color current_color;
 
 private:
     SDL_Texture* player_texture;
     SDL_Rect boundary_rect;
     SDL_Renderer* renderer;
-    SDL_Color color_1 = {242, 140, 40, 255};
-    SDL_Color color_2 = {0, 0, 255, 255};
-    SDL_Color current_color;
 
-    struct time { float delta_time; float total_time = 0; float time_until_flickering = 10; float flickering_interval = 0; float flickering_rate = .2; float time_flickering = 3; int time_between_flickers = 10; };
-    time time;
+
+
 };
 
