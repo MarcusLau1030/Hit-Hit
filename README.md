@@ -6,7 +6,7 @@ Hit!Hit is a casual game where you use your mouse to control a box, and collect 
 
 ## How can you play?
 
-Install and open the Hit!Hit.exe
+Open the Release Folder and use the setup.exe or Setup.msi to install the game. Then, a shortcut will appear on your desktop and you can play the game from there!
 
 ### What I learned from this project
 
