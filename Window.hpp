@@ -4,6 +4,7 @@
 #include <SDL_image.h>
 #include <iostream>
 #include "wtypes.h"
+#include "TextureManager.hpp"
 
 class Window {
 
@@ -15,7 +16,7 @@ public:
     void update(float delta_time);
     void render();
     void clean();
-    bool running();
+    void displayEscape();
 
     //internal class functions
 
@@ -24,17 +25,19 @@ public:
     SDL_Window* window;
     SDL_Renderer* renderer;
 
+    SDL_Rect yes_button;
+    SDL_Rect no_button;
 
     int window_width;
     int window_height;
     int window_center_x;
     int window_center_y;
-    bool window_size_changed = false;
-
+    bool escape_box_active = false;
+    bool is_running;
 
 private:
     int count = 0;
-    bool is_running;
+
 
 
 };

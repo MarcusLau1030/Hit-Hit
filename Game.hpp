@@ -22,16 +22,18 @@ public:
     void handleProjectiles();
     void render();
     void clean();
+    void displayMainMenu();
     void displayTimer(int x, int y, float time, std::string message);
     void displayPoints(int x, int y, int points, std::string message);
     void displayLose();
-    void displayReplay();
+    void displayPlay(std::string message, SDL_Color border_color, SDL_Color filler_color);
     bool isClicked(SDL_Rect button);
     void resetGame();
     Window window;
     Player player;
     std::vector <Projectile*> projectile_list;
-    bool is_running = true;
+    bool is_main_screen = true;
+    bool is_running = false;
     bool is_lose_screen = false;
     bool mouse_button_down = false;
 
@@ -44,5 +46,5 @@ private:
     float total_time = 0;
     int projectile_speed_range = 100;
     int projectile_base_speed = 200;
-    SDL_Rect replay_button;
+    SDL_Rect play_button;
 };

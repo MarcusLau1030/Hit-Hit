@@ -13,14 +13,28 @@ void Game::createGame(Window& window, Player &player) {
 void Game::handleEvent(SDL_Event& event) {
 	switch (event.type) {
 		case SDL_MOUSEBUTTONDOWN:
-			if (event.button.button == SDL_BUTTON_LEFT && isClicked(replay_button)) {
+			if (event.button.button == SDL_BUTTON_LEFT && isClicked(play_button) && (is_lose_screen || is_main_screen)) {
+				mouse_button_down = true;
+			}
+			else if (event.button.button == SDL_BUTTON_LEFT && isClicked(window.yes_button) && (window.escape_box_active)) {
+				mouse_button_down = true;
+			}
+			else if (event.button.button == SDL_BUTTON_LEFT && isClicked(window.no_button) && (window.escape_box_active)) {
 				mouse_button_down = true;
 			}
 			break;
 		case SDL_MOUSEBUTTONUP:
-			if (mouse_button_down && event.button.button == SDL_BUTTON_LEFT && isClicked(replay_button)) {
+			if (mouse_button_down && event.button.button == SDL_BUTTON_LEFT && isClicked(play_button) && (is_lose_screen || is_main_screen)) {
 				mouse_button_down = false;
 				resetGame();
+			}
+			else if (mouse_button_down && event.button.button == SDL_BUTTON_LEFT && isClicked(window.yes_button) && (window.escape_box_active)) {
+				mouse_button_down = false;
+				window.is_running = false;
+			}
+			else if (mouse_button_down && event.button.button == SDL_BUTTON_LEFT && isClicked(window.no_button) && (window.escape_box_active)) {
+				mouse_button_down = false;
+				window.escape_box_active = false;
 			}
 			break;
 		}
@@ -29,9 +43,19 @@ void Game::handleEvent(SDL_Event& event) {
 }
 
 void Game::render() {
-	if (is_running) {
-		SDL_SetRenderDrawColor(window.renderer, 255, 255, 255, 255);
-		SDL_RenderClear(window.renderer);
+	SDL_SetRenderDrawColor(window.renderer, 255, 255, 255, 255);
+	SDL_RenderClear(window.renderer);
+
+	if (window.escape_box_active) {
+		window.displayEscape();
+		return;
+	}
+
+	if (is_main_screen) {
+		displayMainMenu();
+		displayPlay("Play", { 0, 0, 0, 255 }, { 255, 0, 0, 255 });
+	}
+	else if (is_running) {
 
 		player.render();
 
@@ -49,12 +73,19 @@ void Game::render() {
 	}
 	else if (is_lose_screen) {
 		displayLose();
-		displayReplay();
+		displayPlay("Play Again", { 0, 0, 0, 255 }, {255, 0, 0, 255});
 		displayTimer(TextureManager::location_rect.x, TextureManager::location_rect.y + TextureManager::location_rect.h + 20, high_total_time, "Higest Time: ");
 		displayPoints(TextureManager::location_rect.x, TextureManager::location_rect.y + TextureManager::location_rect.h + 20, high_points, "High Score: ");
 	}
 
 	SDL_RenderPresent(window.renderer);
+}
+
+void Game::displayMainMenu() {
+	TextureManager::createText("./Fonts/AGENCYR.TTF", 200, "Hit!Hit", { 0, 0, 0, 255 });
+	int pos_x = (window.window_width / 2) - (TextureManager::location_rect.w / 2);
+	int pos_y = (float)window.window_height * (1.0f / 3.0f) - (TextureManager::location_rect.h / 2);
+	TextureManager::displayText(pos_x, pos_y);
 }
 
 void Game::displayTimer(int x, int y, float time, std::string message) {
@@ -72,29 +103,29 @@ void Game::displayPoints(int x, int y, int points, std::string message) {
 }
 
 void Game::displayLose() {
-	TextureManager::createText("./Fonts/times.ttf", 100, "You Lose", { 0, 0, 0, 255 });
+	TextureManager::createText("./Fonts/AGENCYR.TTF", 100, "You Lose", { 0, 0, 0, 255 });
 	int pos_x = (window.window_width / 2) - (TextureManager::location_rect.w / 2);
 	int pos_y = (float)window.window_height  * (1.0f/3.0f) - (TextureManager::location_rect.h / 2);
 	TextureManager::displayText(pos_x, pos_y);
 }
 
-void Game::displayReplay() {
-	TextureManager::createText("./Fonts/times.ttf", 50, "Play Again", { 0, 0, 0, 255 });
+void Game::displayPlay(std::string message, SDL_Color border_color, SDL_Color filler_color) {
+	TextureManager::createText("./Fonts/times.ttf", 50, message, { 0, 0, 0, 255 });
 	int pos_x = (window.window_width / 2) - (TextureManager::location_rect.w / 2);
-	int pos_y = (float)window.window_height * (11.0f/24.0f) - (TextureManager::location_rect.h / 2);
+	int pos_y = (float)window.window_height* (11.0f / 24.0f) - (TextureManager::location_rect.h / 2);
 	TextureManager::location_rect.x = pos_x;
 	TextureManager::location_rect.y = pos_y;
-	SDL_Rect box = TextureManager::location_rect;
-	box.x -= 1;
-	box.y -= 1;
-	box.w += 2;
-	box.h += 2;
-	SDL_SetRenderDrawColor(window.renderer, 0, 0, 0, 255);
-	SDL_RenderFillRect(window.renderer, &box);
-	SDL_SetRenderDrawColor(window.renderer, 255, 0, 0, 255);
+	SDL_Rect border = TextureManager::location_rect;
+	border.x -= 1;
+	border.y -= 1;
+	border.w += 2;
+	border.h += 2;
+	SDL_SetRenderDrawColor(window.renderer, border_color.r, border_color.g, border_color.b, border_color.a);
+	SDL_RenderFillRect(window.renderer, &border);
+	SDL_SetRenderDrawColor(window.renderer, filler_color.r, filler_color.g, filler_color.b, filler_color.a);
 	SDL_RenderFillRect(window.renderer, &TextureManager::location_rect);
 	TextureManager::displayText(pos_x, pos_y);
-	replay_button = TextureManager::location_rect;
+	play_button = TextureManager::location_rect;
 }
 
 bool Game::isClicked(SDL_Rect button) {
@@ -109,6 +140,7 @@ bool Game::isClicked(SDL_Rect button) {
 void Game::resetGame() {
 
 	is_running = true;
+	is_main_screen = false;
 	is_lose_screen = false;
 	for (auto projectile = projectile_list.begin(); projectile != projectile_list.end(); ) {
 		delete* projectile;

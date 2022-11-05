@@ -28,7 +28,7 @@ int main(int argc, char* argv[]) {
     Game game;
     game.createGame(window, player);
 
-    while (game.window.running()) {
+    while (game.window.is_running) {
         last = now;
         now = SDL_GetPerformanceCounter();
         delta_time = (float)((now - last) / (float)SDL_GetPerformanceFrequency());
