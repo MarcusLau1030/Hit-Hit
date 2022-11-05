@@ -25,3 +25,5 @@ Despite my upcoming, I understand that there are many things that I can improve 
 1. Understanding my limitations, as I just made the transition from Python to C++ and was too ambitious with the number of things I wanted to implement, without the knowledge, time, and resources to bring these ideas into reality
 2. Organizing my project better, as there were times I was utterly lost with the number of files open, and the absurd amount of parameters my functions needed from different classes
 3. Knowing more about Visual Studio as an IDE and how to use it with GitHub. In the future, I would like to utilize my IDE better to aid me in my coding endeavors and how to use GitHub to mark updates and important milestones.
+
+![](https://github.com/BabyDinos/Hit-Hit/blob/master/gameplay.mp4)
