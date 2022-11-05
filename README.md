@@ -26,4 +26,5 @@ Despite my upcoming, I understand that there are many things that I can improve 
 2. Organizing my project better, as there were times I was utterly lost with the number of files open, and the absurd amount of parameters my functions needed from different classes
 3. Knowing more about Visual Studio as an IDE and how to use it with GitHub. In the future, I would like to utilize my IDE better to aid me in my coding endeavors and how to use GitHub to mark updates and important milestones.
 
-![](https://github.com/BabyDinos/Hit-Hit/blob/master/gameplay.mp4)
+
+https://user-images.githubusercontent.com/108362808/200132792-c8c7d434-cb84-46c9-8669-37afe5d4d4a6.mp4
