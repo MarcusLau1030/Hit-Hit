@@ -26,6 +26,12 @@ Despite my upcoming, I understand that there are many things that I can improve 
 2. Organizing my project better, as there were times I was utterly lost with the number of files open, and the absurd amount of parameters my functions needed from different classes
 3. Knowing more about Visual Studio as an IDE and how to use it with GitHub. In the future, I would like to utilize my IDE better to aid me in my coding endeavors and how to use GitHub to mark updates and important milestones.
 
+### What I want to add in the future
+
+1. Different types of projectiles so that the game doesn't become too repetitve
+2. Add more colors as the game progresses, so the difficulty scales as time passes
+3. Some animations like when your player is hit, or when your player collects a certain amount of points
+
 ![gameplay](https://user-images.githubusercontent.com/108362808/200132961-76da1772-527a-41d6-ab55-6fc01eb7c11c.gif)
 
 
